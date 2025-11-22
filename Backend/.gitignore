@@ -1,55 +1,89 @@
-# ----------------------------------------
-# Node / Express - Backend Side
-# ----------------------------------------
-
-# Dependencies
-node_modules/
-
-# Env files
-.env
-.env.*
-!.env.example
-
+<<<<<<< HEAD
+=======
+# -------------------------------------
+>>>>>>> 9e4bc654d45bb81dbcf3c08e5a6219025fd03d23
 # Logs
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pm2-*.log
+<<<<<<< HEAD
+pnpm-debug.log*
+lerna-debug.log*
 
-# Runtime files
-pids/
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+=======
+firebase-debug.log*
+firebase-debug.*.log*
+
+# -------------------------------------
+# Firebase
+.firebase/
+firebase-debug.log
+firebase-debug.*.log
+functions/node_modules/
+
+# Uncomment this if you want separate Firebase projects per dev:
+# .firebaserc
+
+# -------------------------------------
+# Runtime data
+pids
 *.pid
+*.seed
 *.pid.lock
 
-# Coverage
+# -------------------------------------
+# Coverage / Testing
 coverage/
-.nyc_output/
+.nyc_output
+lib-cov/
 
-# Build output (if using Babel/TypeScript)
+# -------------------------------------
+# Build output
 dist/
 build/
 
-# Caches
-.cache/
-.eslintcache
+# -------------------------------------
+# Dependency directories
+node_modules/
+bower_components/
 
-# Local SSL certificates (if using HTTPS dev)
-certs/
-*.pem
-*.crt
-*.key
-
-# OS & Editor junk files
+# -------------------------------------
+# System & IDE files
 .DS_Store
 Thumbs.db
+.vscode/
 .idea/
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
 
-# Misc
+# -------------------------------------
+# Config / Environment
+.env
+.env.*
+.eslintcache
+config.js
+firebase.js
+pglite-debug.log
+
+# -------------------------------------
+# Vite-specific
+*.local
 *.tgz
-*.zip
-*.tar
+.yarn-integrity
+.npm
+>>>>>>> 9e4bc654d45bb81dbcf3c08e5a6219025fd03d23
