@@ -50,12 +50,9 @@ const LinkForm = () => {
              tinyLink: res.data.tinyLink || "",
              targetLink: res.data.targetLink || trimmedLink,
        }
-             
-
            if (res?.data?.tinyLink) {
            setTinyLink(res.data.tinyLink);
            setLinks(prev => [result, ...prev]);
-             console.log(links)
          setTargetLink("");
         setcode("");
         
@@ -64,8 +61,7 @@ const LinkForm = () => {
       } else {
         setError("Unexpected server response.");
       }
-      console.log(res.data)
-      console.log(links)
+      
 } catch (error) {
             setError(error?.response?.data?.message ||
         error?.response?.data?.error ||

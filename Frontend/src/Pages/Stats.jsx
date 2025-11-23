@@ -53,8 +53,7 @@ export default function Stats() {
     }));
 
     try {
-      await axios.get(`${API}/api/${code}`);
-      window.open( `${API}/api/${code}`,"_blank");
+      window.open( `${API}/api/${code}`,"_blank","noopener");
 
     } catch (err) {
       console.error('Failed to increment clicks:', err);

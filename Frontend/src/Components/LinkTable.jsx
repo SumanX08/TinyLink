@@ -58,15 +58,14 @@ export default function LinkTable(props) {
       if (props.onDelete) props.onDelete(code);
     } catch (err) {
       setLinks(prevLinks);
-      console.error("Delete failed:", err);
       alert("Network error while deleting link. Please try again.");
     }
   };
 
   const handleRedirect =async (code) => {
     try {
-      const res=axios.get(`${API}/api/${code}`); 
-      window.open( `${API}/api/${code}`,"_blank");
+        window.open(`${API}/api/${code}`, "_blank", "noopener");
+
       return res.status
       
     } catch (error) {
@@ -97,59 +96,72 @@ export default function LinkTable(props) {
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2>Your Links</h2>
-      </div>
+  <div className="px-6 py-4 border-b border-gray-200">
+    <h2>Your Links</h2>
+  </div>
 
-      {/* Desktop table view */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-6 py-3 text-left text-gray-700">Custom Code</th>
-              <th className="px-6 py-3 text-left text-gray-700">Original Link</th>
-              <th className="px-6 py-3 text-left text-gray-700">Short Link</th>
-              <th className="px-6 py-3 text-left text-gray-700">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {links.map((link) => {
-              const code = link.code;
-              const shortUrl = `https://tinylink/${code}`;
-              return (
-                <tr key={code} className="hover:bg-gray-50 transition-colors">
-                  <td
-                    onClick={() => navigate(`/code/${code}`)}
-                    className="px-6 py-4 font-mono  cursor-pointer text-blue-600 hover:underline"
-                  >
-                    {code}
-                  </td>                 
-                   <td className="px-6 py-4 text-gray-600 truncate" title={link.targetLink}>{link.targetLink}</td>
-                  <td className="px-6 py-4">
-                    <a
-                       onClick={()=>handleRedirect(code)}
-                      className="text-blue-600 hover:text-blue-700 hover:underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {shortUrl}
-                    </a>
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      onClick={() => handleDelete(code)}
-                      className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                      title="Delete link"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+  <div className="divide-y divide-gray-200">
+    <div className="hidden md:grid md:grid-cols-4 gap-4 px-6 py-3 bg-gray-50 text-gray-700 text-sm font-medium border-b">
+      <div>Custom Code</div>
+      <div>Original Link</div>
+      <div>Short Link</div>
+      <div className="text-right">Actions</div>
     </div>
+
+    <div>
+      {links.map((link) => {
+        const code = link.code;
+        const shortUrl = link.tinyLink || `${window.location.origin}/${encodeURIComponent(code)}`;
+
+        return (
+          <div
+            key={code}
+            className="grid grid-cols-1 md:grid-cols-4 gap-4 px-6 py-4 hover:bg-gray-50 transition-colors items-center"
+          >
+            <div
+              onClick={() => navigate(`/code/${encodeURIComponent(code)}`)}
+              onKeyDown={(e) => e.key === 'Enter' && navigate(`/code/${encodeURIComponent(code)}`)}
+              role="link"
+              tabIndex={0}
+              className="font-mono cursor-pointer text-blue-600 hover:underline px-0 md:px-6"
+              title={`View stats for ${code}`}
+            >
+              {code}
+            </div>
+
+            <div className="text-gray-600 truncate px-0 md:px-6" title={link.targetLink}>
+              <span className="hidden md:inline">{link.targetLink}</span>
+              <span className="md:hidden block wrap-break-words">{link.targetLink}</span>
+            </div>
+
+            <div className="px-0 md:px-6">
+              <a
+                onClick={() => handleRedirect(code)}
+                className="text-blue-600 hover:text-blue-700 hover:underline wrap-break-words inline-block"
+                target="_blank"
+                rel="noopener noreferrer"
+                href={shortUrl}
+              >
+                {shortUrl}
+              </a>
+            </div>
+
+            <div className="flex items-center gap-2 justify-start md:justify-end px-0 md:px-6">
+              <button
+                onClick={() => handleDelete(code)}
+                className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                title="Delete link"
+                aria-label={`Delete ${code}`}
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</div>
+
   );
 }
