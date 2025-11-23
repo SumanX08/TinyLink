@@ -4,7 +4,7 @@ import { ExternalLink, ArrowLeft, BarChart3, Clock, Calendar } from 'lucide-reac
 import Header from '../Components/Header';
 import axios from 'axios';
 
-export default function Stats() {
+ const Stats=()=> {
   const { code } = useParams();
   const navigate = useNavigate();
   const [link, setLink] = useState(null);
@@ -30,6 +30,10 @@ export default function Stats() {
         }
       } catch (err) {
         if (mounted) setLink(null);
+        if(err.res&& err.res.status === 404) {
+         navigate('/404', { replace: true });
+         return
+        }
         console.error('Failed to fetch link data:', err);
       }
       finally {
@@ -37,7 +41,7 @@ export default function Stats() {
       }
     };
 
-    load();
+    if(code) load();
     return () => { mounted = false; };
   }, [code, setLink]);
   
@@ -70,7 +74,6 @@ export default function Stats() {
     return new Date(dateString).toLocaleString();
   };
 
-  // Loading state - simple spinner block
   if (isLoading) {
     return (
       <div className="min-h-screen">
@@ -86,7 +89,6 @@ export default function Stats() {
     );
   }
 
-  // Not found (or fetch failed)
   if (!link) {
     return (
       <div className="min-h-screen">
@@ -192,3 +194,5 @@ export default function Stats() {
     </div>
   );
 }
+
+export default Stats; 

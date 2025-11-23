@@ -118,7 +118,6 @@ router.get('/:code', async (req, res) => {
     );
 
     if (!link) return res.status(404).json({ error: "Link not found" });
-    console.log("Redirecting to:", link.targetLink);
     return res.redirect(302, link.targetLink);
 
   } catch (error) {
