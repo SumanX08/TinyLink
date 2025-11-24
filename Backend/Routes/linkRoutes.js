@@ -15,19 +15,7 @@ const validCode=(code)=>{
 
 router.post("/links", async (req, res) => {
   try {
-    const { targetLink, code, incrementClick, } = req.body;
-
-    if (incrementClick && code) {
-      const link = await Link.findOneAndUpdate(
-        { code },
-        { $inc: { clicks: 1 }, $set: { lastClickedAt: new Date() } },
-        { new: true }
-      );
-
-      if (!link) return res.status(404).json({ error: "Link not found" });
-
-      return res.status(200).json({ success: true, clicks: link.clicks, lastClickedAt: link.lastClickedAt });
-    }
+    const { targetLink, code,  } = req.body;
 
     if (!targetLink) return res.status(400).json({ error: "targetLink is required" });
 
